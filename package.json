@@ -1,0 +1,31 @@
+{
+  "name": "dead-drop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dead Drop ingest API for justanotherspy.com — Cloudflare Worker + Queue + Slack consumer",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "hono": "^4.12.23",
+    "slack-edge": "^1.3.17"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.16.9",
+    "@cloudflare/workers-types": "^4.20260525.1",
+    "eslint": "^10.4.0",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.0",
+    "vitest": "^4.1.7",
+    "wrangler": "^4.94.0"
+  }
+}
