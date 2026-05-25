@@ -1,0 +1,4 @@
+# Local development secrets for `wrangler dev`. Copy to `.dev.vars` (gitignored)
+# and fill in real values. Needed for `make integration` to actually post to Slack.
+SLACK_BOT_TOKEN=xoxb-your-bot-token
+SLACK_CHANNEL_ID=C0123456789

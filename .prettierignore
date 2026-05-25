@@ -1,0 +1,8 @@
+dist/
+.wrangler/
+coverage/
+node_modules/
+package-lock.json
+
+# Authored spec — don't reformat.
+design/
