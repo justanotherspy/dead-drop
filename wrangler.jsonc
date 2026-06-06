@@ -1,55 +1,82 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "dead-drop",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-09-23",
-  "observability": {
-    "enabled": true,
-  },
-
-  // Public ingest hostname. The Worker is the origin; Cloudflare manages DNS + cert.
-  "routes": [{ "pattern": "dead-drop.justanotherspy.com", "custom_domain": true }],
-
-  // Non-secret config. SLACK_BOT_TOKEN is a secret (wrangler secret put / .dev.vars).
-  "vars": {
-    "ALLOWED_ORIGIN": "https://justanotherspy.com",
-    "SLACK_CHANNEL_ID": "REPLACE_WITH_CHANNEL_ID",
-    "GLOBAL_HOURLY_CEILING": "400",
-  },
-
-  // Durable queue + dead-letter queue (design §Queue).
-  "queues": {
-    "producers": [{ "queue": "dead-drop", "binding": "DEAD_DROP_QUEUE" }],
-    "consumers": [
-      {
-        "queue": "dead-drop",
-        "max_batch_size": 10,
-        "max_batch_timeout": 5,
-        "max_retries": 5,
-        "dead_letter_queue": "dead-drop-dlq",
-      },
-    ],
-  },
-
-  // Per-IP short-window throttle (native binding only supports period 10 or 60s).
-  "ratelimits": [
-    {
-      "name": "PER_IP_MINUTE",
-      "namespace_id": "1001",
-      "simple": { "limit": 3, "period": 60 },
-    },
-  ],
-
-  // RL_KV: per-IP hourly fixed-window. IDEMPOTENCY_KV: consumer dedupe on payload id.
-  // Replace the ids after `wrangler kv namespace create`.
-  "kv_namespaces": [
-    { "binding": "RL_KV", "id": "REPLACE_WITH_RL_KV_ID" },
-    { "binding": "IDEMPOTENCY_KV", "id": "REPLACE_WITH_IDEMPOTENCY_KV_ID" },
-  ],
-
-  // Strict global hourly ceiling — needs strong consistency, so a single Durable Object.
-  "durable_objects": {
-    "bindings": [{ "name": "GLOBAL_COUNTER", "class_name": "GlobalCounter" }],
-  },
-  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GlobalCounter"] }],
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "dead-drop",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-09-23",
+	"observability": {
+		"enabled": true,
+	},
+	// Public ingest hostname. The Worker is the origin; Cloudflare manages DNS + cert.
+	"routes": [
+		{
+			"pattern": "dead-drop.justanotherspy.com",
+			"custom_domain": true
+		}
+	],
+	// Non-secret config. SLACK_BOT_TOKEN is a secret (wrangler secret put / .dev.vars).
+	"vars": {
+		"ALLOWED_ORIGIN": "https://justanotherspy.com",
+		"SLACK_CHANNEL_ID": "C0B8N8QTSRK",
+		"GLOBAL_HOURLY_CEILING": "20",
+	},
+	// Durable queue + dead-letter queue (design §Queue).
+	"queues": {
+		"producers": [
+			{
+				"queue": "dead-drop",
+				"binding": "DEAD_DROP_QUEUE"
+			}
+		],
+		"consumers": [
+			{
+				"queue": "dead-drop",
+				"max_batch_size": 10,
+				"max_batch_timeout": 5,
+				"max_retries": 5,
+				"dead_letter_queue": "dead-drop-dlq",
+			},
+		],
+	},
+	// Per-IP short-window throttle (native binding only supports period 10 or 60s).
+	"ratelimits": [
+		{
+			"name": "PER_IP_MINUTE",
+			"namespace_id": "1001",
+			"simple": {
+				"limit": 3,
+				"period": 60
+			},
+		},
+	],
+	// RL_KV: per-IP hourly fixed-window. IDEMPOTENCY_KV: consumer dedupe on payload id.
+	// Replace the ids after `wrangler kv namespace create`.
+	"kv_namespaces": [
+		{
+			"binding": "RL_KV",
+			"id": "44072553790d4b268e0bf7e311f047fb",
+			"remote": true
+		},
+		{
+			"binding": "IDEMPOTENCY_KV",
+			"id": "f2ae2c2394ea4cd1bfd6ced7ea5b8dcd",
+			"remote": true
+		},
+	],
+	// Strict global hourly ceiling — needs strong consistency, so a single Durable Object.
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "GLOBAL_COUNTER",
+				"class_name": "GlobalCounter"
+			}
+		],
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"GlobalCounter"
+			]
+		}
+	],
 }
