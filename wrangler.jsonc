@@ -54,12 +54,10 @@
     {
       "binding": "RL_KV",
       "id": "44072553790d4b268e0bf7e311f047fb",
-      "remote": true,
     },
     {
       "binding": "IDEMPOTENCY_KV",
       "id": "f2ae2c2394ea4cd1bfd6ced7ea5b8dcd",
-      "remote": true,
     },
   ],
   // Strict global hourly ceiling — needs strong consistency, so a single Durable Object.
