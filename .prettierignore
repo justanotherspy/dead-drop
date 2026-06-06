@@ -4,5 +4,8 @@ coverage/
 node_modules/
 package-lock.json
 
+# Managed by Renovate — don't reformat.
+renovate.json
+
 # Authored spec — don't reformat.
 design/
