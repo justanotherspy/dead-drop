@@ -43,7 +43,7 @@ src/
   lib/slack.ts        Block Kit formatting + chat.postMessage via slack-edge
   lib/idempotency.ts  KV dedupe on payload id
   do/global-counter.ts strict global hourly ceiling (Durable Object)
-test/                 vitest (@cloudflare/vitest-pool-workers)
+test/                 vitest (@cloudflare/vitest-plugin)
 scripts/integration.sh local end-to-end smoke test
 ```
 
@@ -77,7 +77,7 @@ shuck <pr-url> --json
 
 ## Testing notes
 
-- Tests run inside the Workers runtime via `@cloudflare/vitest-pool-workers`
+- Tests run inside the Workers runtime via `@cloudflare/vitest-plugin`
   (config: `cloudflareTest` plugin in `vitest.config.ts`, v4 API).
 - Handler/consumer tests drive code with a mocked `Env` (`test/helpers.ts`) so no
   real bindings or Slack calls are needed. The consumer takes an injectable `post`.
