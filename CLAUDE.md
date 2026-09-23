@@ -53,13 +53,23 @@ scripts/integration.sh local end-to-end smoke test
 | ------------------ | ----------------------------------------------------- |
 | `make dev`         | `wrangler dev` (local Workers + Queues via Miniflare) |
 | `make test`        | unit tests (Vitest, Workers pool)                     |
-| `make typecheck`   | `tsc --noEmit`                                        |
+| `make typecheck`   | `tsc --noEmit` (TypeScript 7, see below)              |
 | `make lint`        | ESLint + Prettier check                               |
 | `make lint-fix`    | autofix lint + format                                 |
 | `make semgrep`     | Semgrep CE scan (run before opening a PR)             |
 | `make integration` | boot `wrangler dev` and drive the endpoint end-to-end |
 | `make build`       | `wrangler deploy --dry-run` (the PR build gate)       |
 | `make deploy`      | `wrangler deploy` (normally via the gated workflow)   |
+
+### TypeScript 6 and 7 side by side
+
+`tsc` is TypeScript 7 (the native compiler), installed under the alias
+`@typescript/native` (`npm:typescript@…`). TypeScript 7.0 ships no JavaScript
+API, and typescript-eslint loads that API from the `typescript` package, so the
+`typescript` name is aliased to `@typescript/typescript6` (the TS 6 API, plus a
+`tsc6` binary). This is the setup the TypeScript 7.0 release notes recommend.
+Drop the alias (make `typescript` point at 7.x again) once typescript-eslint
+supports TypeScript 7.
 
 ### Before opening a PR
 
