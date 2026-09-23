@@ -2,5 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>justanotherspy/renovate"
+  ],
+  "packageRules": [
+    {
+      "description": "Hold Vitest on 4.x: the Workers test pool @cloudflare/vitest-plugin 1.2.x peers on vitest ^4.1.0 and does not start under Vitest 5. Remove this rule once Vitest 5 support ships (https://github.com/cloudflare/workers-sdk/pull/15500, tracked in https://github.com/cloudflare/workers-sdk/issues/15618) and bump vitest together with @cloudflare/vitest-plugin.",
+      "matchPackageNames": [
+        "vitest",
+        "@vitest/**"
+      ],
+      "allowedVersions": "<5.0.0"
+    }
   ]
 }

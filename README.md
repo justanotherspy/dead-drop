@@ -34,4 +34,4 @@ the gated deploy workflow.
 - Cloudflare Queues (+ dead-letter queue) — durable decoupling
 - Cloudflare KV + a Durable Object — idempotency and rate-limit state
 - [`slack-edge`](https://www.npmjs.com/package/slack-edge) — `chat.postMessage`
-- Vitest (`@cloudflare/vitest-pool-workers`), ESLint, Prettier, Semgrep CE
+- Vitest (`@cloudflare/vitest-plugin`), ESLint, Prettier, Semgrep CE
